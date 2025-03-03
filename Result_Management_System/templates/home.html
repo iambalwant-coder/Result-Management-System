@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Result Board</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-hj6b41qppVhGyMIpc9J7aCSs/i7HsrbFffK6f02HfJmOHYPyWxR8hUGRmsXsFh2tF4uGXh7QDmb+1wSpWbnJ/g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Reset and basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #6C0345;
+      margin: 0;
+      padding: 0;
+      perspective: 1000px; /* Enable perspective for 3D effect */
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header styles */
+    .navbar {
+      background-color: #007bff;
+      color: #fff;
+      padding: 15px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      margin-left: 20px;
+    }
+
+    .navbar nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+    }
+
+    .navbar nav ul li {
+      margin-right: 1rem;
+    }
+
+    .navbar nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar nav ul li a:hover {
+      background-color: #0056b3;
+      border-radius: 4px;
+    }
+
+    .navbar nav ul li a i {
+      margin-right: 5px;
+    }
+
+    /* Form styles */
+    .navbar form {
+      display: flex;
+      align-items: center;
+      margin-right: 20px; /* Adjusted margin */
+    }
+
+    .navbar form label {
+      color: #fff;
+      margin-right: 10px;
+    }
+
+    .navbar form input, .navbar form select {
+      padding: 5px;
+      border: none;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+
+    .navbar form select {
+      flex: 1; /* Allow the select to take remaining space */
+      max-width: 150px; /* Limit max width to avoid stretching */
+    }
+
+    .navbar form button {
+      background-color: #28a745; /* Green button */
+      color: #fff;
+      border: none;
+      padding: 8px 16px; /* Adjusted padding */
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar form button:hover {
+      background-color: #218838; /* Darker green on hover */
+    }
+
+    /* Product grid */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .product {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 8px;
+      transition: transform 0.3s, box-shadow 0.3s ease; /* Animation effect */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+      transform-style: preserve-3d; /* Preserve 3D effects */
+    }
+
+    .product:hover {
+      transform: translateY(-10px); /* Lift the card on hover */
+      box-shadow : 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .product h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .product table {
+      width: 100%;
+      margin-top: 10px;
+      border-collapse: collapse;
+    }
+
+    .product th,
+    .product td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .product th {
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    .product .result {
+      background-color: #007bff;
+      color: #fff;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    .product .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .product .actions a {
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .product .actions .view-button {
+      background-color: #28a745;
+    }
+
+    .product .actions .view-button:hover {
+      background-color: #218838;
+    }
+
+    .product .actions .delete-button {
+      background-color: #dc3545;
+    }
+
+    .product .actions .delete-button:hover {
+      background-color: #c82333;
+    }
+
+    .product .actions .edit-button {
+      background-color: #007bff;
+    }
+
+    .product .actions .edit-button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Stamp styles */
+    .stamp {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 120px;
+      height: 120px;
+      background-color: #dc3545;
+      color: #fff;
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: bold;
+      line-height: 120px;
+      transform: rotate(-15deg);
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Highlighting styles */
+    .highlight-red {
+      color: red;
+      font-weight: bold;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+      padding-top: 60px;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 8px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="/" class="logo">Result Board</a>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="{% url 'add' %}"><i class="fas fa-plus-circle"></i> Add Data</a></li>
+        <li><a href="#" id="aboutBtn"><i class="fas fa-info-circle"></i> About</a></li>
+      </ul>
+      <form method="get" action="{% url 'home' %}">
+ <label for="name">Name:</label>
+        <input type="text" name="name" id="name" value="{{ name_query }}">
+        <label for="result">Result:</label>
+        <select name="result" id="result">
+          <option value="">All</option>
+          <option value="PASS" {% if result_query == 'PASS' %}selected{% endif %}>PASS</option>
+          <option value="FAIL" {% if result_query == 'FAIL' %}selected{% endif %}>FAIL</option>
+        </select>
+        <button type="submit">Filter</button>
+      </form>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="products">
+      {% if students %}
+      {% for student in students %}
+      <article class="product">
+        <div class="stamp">{{ student.result }}</div>
+        <h2>{{ student.student_name }}</h2>
+        <table>
+          <tr>
+            <th>Attribute</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>Student ID:</td>
+            <td>{{ student.student_id }}</td>
+          </tr>
+          <tr>
+            <td>Math Marks:</td>
+            <td {% if student.math < 35 %} class="highlight-red" {% endif %}>{{ student.math }}</td>
+          </tr>
+          <tr>
+            <td>Science Marks:</td>
+            <td {% if student.science < 35 %} class="highlight-red" {% endif %}>{{ student.science }}</td>
+          </tr>
+          <tr>
+            <td>English Marks:</td>
+            <td {% if student.english < 35 %} class="highlight-red" {% endif %}>{{ student.english }}</td>
+          </tr>
+          <tr>
+            <td>Total Marks:</td>
+            <td>{{ student.total_marks }}</td>
+          </tr>
+          <tr>
+            <td style="background-color: #f9f9f9;"><b>Final Result:</b></td>
+            <td style="background-color: #f9f9f9;"><b>{{ student.percentage|floatformat:2 }}%</b></td>
+          </tr>
+        </table>
+        <div class="actions">
+          <a href="/view/{{student.student_id}}" class="view-button"><i class="fas fa-eye"></i> View</a>
+          <a href="/delete/{{student.student_id}}" class="delete-button"><i class="fas fa-trash-alt"></i> Delete</a>
+          <a href="/edit/{{student.student_id}}" class="edit-button"><i class="fas fa-edit"></i> Edit</a>
+        </div>
+      </article>
+      {% endfor %}
+      {% else %}
+      <marquee behavior="scroll" direction="left"><b style="color: #ff9f00; background-color: #fff;"> Data Not Found. </b></marquee>
+      {% endif %}
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 Result Management System. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- About Modal -->
+  <div id="aboutModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>About Result Board</h2>
+      <p>This Result Board application is designed to help educational institutions manage student results efficiently. Users can add, edit, delete, and view student records, along with filtering options to display results based on specific criteria.</p>
+      <p>Developed using Django, this application aims to provide a user-friendly interface for managing student data.</p>
+    </div>
+  </div>
+
+  <script>
+    // Get the modal
+    var modal = document.getElementById("aboutModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("aboutBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>

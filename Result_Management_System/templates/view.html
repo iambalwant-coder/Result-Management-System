@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Details</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-hj6b41qppVhGyMIpc9J7aCSs/i7HsrbFffK6f02HfJmOHYPyWxR8hUGRmsXsFh2tF4uGXh7QDmb+1wSpWbnJ/g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Reset and basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #6C0345;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #fff;
+      color: #333;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    .header a {
+      text-decoration: none;
+      color: #007bff;
+      background-color: #fff;
+      padding: 10px 20px;
+      border-radius: 4px;
+      border: 1px solid #007bff;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .header a:hover {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    table th,
+    table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    .stamp {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 120px;
+      height: 120px;
+      background-color: #dc3545;
+      color: #fff;
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: bold;
+      line-height: 120px;
+      transform: rotate(-15deg);
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      animation: stampAnimation 1s ease-in-out infinite;
+    }
+
+    @keyframes stampAnimation {
+      0% {
+        transform: rotate(-15deg) scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: rotate(-15deg) scale(1.1);
+        opacity: 0.7;
+      }
+      100% {
+        transform: rotate(-15deg) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .print-btn {
+      display: inline-block;
+      color: #fff;
+      background-color: #28a745;
+      padding: 10px 20px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+      margin-top: 20px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .print-btn:hover {
+      background-color: #218838;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 15px 0;
+      background-color: #333;
+      color: #fff;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>Student Details</h1>
+      <a href="/" class="btn btn-primary">Back to List</a>
+    </div>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Student ID:</td>
+        <td>{{ student.student_id }}</td>
+      </tr>
+      <tr>
+        <td>Student Name:</td>
+        <td>{{ student.student_name }}</td>
+      </tr>
+      <tr>
+        <td>Math Marks:</td>
+        <td>{{ student.math }}</td>
+      </tr>
+      <tr>
+        <td>Science Marks:</td>
+        <td>{{ student.science }}</td>
+      </tr>
+      <tr>
+        <td>English Marks:</td>
+        <td>{{ student.english }}</td>
+      </tr>
+      <tr>
+        <td>Total Marks:</td>
+        <td>{{ student.total_marks }}</td>
+      </tr>
+      <tr>
+        <td>Final Result:</td>
+        <td>{{ student.percentage|floatformat:2 }}%</td>
+      </tr>
+    </table>
+
+    <div class="stamp">{{ student.result }}</div>
+
+    <button class="print-btn" onclick="window.print()">Print Result</button>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2024 Result Management System. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

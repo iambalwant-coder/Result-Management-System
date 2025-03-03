@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Student Data - Flipkart Clone</title>
+  <style>
+    /* Reset and basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0A6847;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 600px; /* Reduced max-width for smaller form */
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #E68369;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      font-size: 1.6rem; /* Slightly smaller heading */
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%; /* Full width of container */
+    }
+
+    .form-group {
+      margin-bottom: 15px; /* Reduced margin for a compact look */
+    }
+
+    .form-group label {
+      font-weight: bold;
+      margin-bottom: 5px; /* Reduced space below label */
+      display: block;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="number"] {
+      padding: 8px; /* Reduced padding */
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+      font-size: 0.9rem; /* Slightly smaller font size */
+    }
+
+    .form-group button {
+      background-color: #2874f0;
+      color: #fff;
+      border: none;
+      padding: 8px 16px; /* Reduced padding */
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 0.9rem; /* Slightly smaller font size */
+      margin-top: 10px;
+    }
+
+    .form-group button:hover {
+      background-color: #1e60d5;
+    }
+
+    /* Header styles */
+    .navbar {
+      background-color: #2874f0;
+      color: #fff;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      margin-left: 20px;
+    }
+
+    .navbar nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+    }
+
+    .navbar nav ul li {
+      margin-right: 1rem;
+    }
+
+    .navbar nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar nav ul li a i {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="/" class="logo">Result Bord</a>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="{% url 'add' %}"><i class="fas fa-plus-circle"></i> Add Data</a></li>
+      </ul>
+    </nav>
+  </header>
+
+<div class="container">
+  <!-- Navigation bar -->
+
+  <h1>Edit Student Data</h1>
+  
+  <form method="post" action="/edit/{{student.student_id}}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="student_id">Student ID:</label>
+      <input type="text" id="student_id" name="student_id" required value="{{student.student_id}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="student_name">Name:</label>
+      <input type="text" id="student_name" name="student_name" required value="{{student.student_name}}">
+    </div>
+    <div class="form-group">
+      <label for="math">Math:</label>
+      <input type="number" id="math" name="math" required value="{{student.math}}">
+    </div>
+    <div class="form-group">
+      <label for="science">Science:</label>
+      <input type="number" id="science" name="science" required value="{{student.science}}">
+    </div>
+    <div class="form-group">
+      <label for="english">English:</label>
+      <input type="number" id="english" name="english" required value="{{student.english}}">
+    </div>
+    
+    <div class="form-group" style="text-align: center;">
+      <button type="submit"><i class="fas fa-save"></i> Update</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

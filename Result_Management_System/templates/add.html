@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Student Data - Flipkart Clone</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-hj6b41qppVhGyMIpc9J7aCSs/i7HsrbFffK6f02HfJmOHYPyWxR8hUGRmsXsFh2tF4uGXh7QDmb+1wSpWbnJ/g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Reset and basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #522258; /* Light cyan background for the body */
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 900px; /* Slightly smaller max-width for better fit */
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #87A922; /* White background for the container */
+      border-radius: 8px; /* Rounded corners */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    }
+
+    h1 {
+      font-size: 2rem; /* Increased font size */
+      margin-bottom: 20px;
+      text-align: center;
+      color: #333; /* Dark text color for contrast */
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      color: #555; /* Lighter color for labels */
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="number"] {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 100%;
+      font-size: 1rem;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); /* Subtle inner shadow */
+    }
+
+    .form-group button {
+      background-color: #ff5722; /* Change button color */
+      color: #fff;
+      border: none;
+      padding: 14px 28px; /* Increase padding for a larger button */
+      cursor: pointer;
+      border-radius: 8px; /* Rounded corners */
+      font-size: 1.1rem; /* Larger font size */
+      margin-top: 20px; /* Add margin to separate from form fields */
+      transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+      display: inline-block; /* Make button respect centering */
+      text-align: center; /* Center text inside button */
+    }
+
+    .form-group button:hover {
+      background-color: #e64a19; /* Darker color on hover */
+      transform: translateY(-2px); /* Slight lift effect */
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhance shadow on hover */
+    }
+
+    /* Header styles */
+    .navbar {
+      background-color: #2874f0;
+      color: #fff;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      margin-left: 20px;
+    }
+
+    .navbar nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+    }
+
+    .navbar nav ul li {
+      margin-right: 1rem;
+    }
+
+    .navbar nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar nav ul li a i {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <a href="/" class="logo">Result Bord</a>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="{% url 'add' %}"><i class="fas fa-plus-circle"></i> Add Data</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="container">
+  <h1>Add Student Data</h1>
+  <form action="{% url 'add' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="student_id">Student ID</label>
+      <input type="text" id="student_id" name="student_id" required>
+    </div>
+    <div class="form-group">
+      <label for="student_name">Student Name</label>
+      <input type="text" id="student_name" name="student_name" required>
+    </div>
+    <div class="form-group">
+      <label for="math">Math Marks</label>
+      <input type="number" id="math" name="math" required>
+    </div>
+    <div class="form-group">
+      <label for="science">Science Marks</label>
+      <input type="number" id="science" name="science" required>
+    </div>
+    <div class="form-group">
+      <label for="english">English Marks</label>
+      <input type="number" id="english" name="english" required>
+    </div>
+    <div class="form-group">
+      <button type="submit">Add Student</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
